@@ -32,6 +32,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    // springboot: security
+    implementation 'org.springframework.security:spring-security-crypto'
     // springboot: web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // test
