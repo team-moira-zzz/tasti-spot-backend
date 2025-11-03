@@ -4,12 +4,14 @@ import com.example.tastispotbackend.domain.signup.dto.request.SignupRequest;
 import com.example.tastispotbackend.domain.signup.mapper.SignupMapper;
 import com.example.tastispotbackend.global.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class SignupService {
+    private final BCryptPasswordEncoder passwordEncoder;
     private final SignupMapper signupMapper;
 
     @Transactional(readOnly = true)
@@ -28,7 +30,7 @@ public class SignupService {
 
     @Transactional
     public void signup(SignupRequest request) {
-        User user = new User(request);
+        User user = new User(request, passwordEncoder);
 
         signupMapper.insertUser(user);
     }
