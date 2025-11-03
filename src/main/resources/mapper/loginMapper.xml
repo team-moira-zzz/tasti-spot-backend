@@ -2,5 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tastispotbackend.domain.login.mapper.LoginMapper">
+    <select id="selectEmailChk">
+        SELECT count(id) FROM USER WHERE email = #{email}
+    </select>
 
+    <select id="selectUserByEmail" resultType="com.example.tastispotbackend.global.entity.User">
+        SELECT
+               id
+             , name
+             , nickname
+             , email
+             , password
+             , created_at
+             , updated_at
+        FROM USER
+        WHERE email = #{email}
+    </select>
+
+    <insert id="insertUserLoginHistory" parameterType="com.example.tastispotbackend.global.entity.UserLoginHistory">
+        INSERT INTO USER_LOGIN_HISTORY(
+               user_id
+             , success
+             , ip_address
+             , user_agent
+             , failure_reason
+             , device_type
+             , login_time
+        ) VALUES (
+               #{userId}
+             , #{success}
+             , #{ipAddress}
+             , #{userAgent}
+             , #{failureReason}
+             , #{deviceType}
+             , #{loginTime}
+        )
+    </insert>
 </mapper>

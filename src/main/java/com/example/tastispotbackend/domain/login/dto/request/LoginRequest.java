@@ -1,4 +1,4 @@
-package com.example.tastispotbackend.domain.login.dto;
+package com.example.tastispotbackend.domain.login.dto.request;
 
 public record LoginRequest(
         String email,
