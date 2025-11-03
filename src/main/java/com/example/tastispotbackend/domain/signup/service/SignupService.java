@@ -3,7 +3,10 @@ package com.example.tastispotbackend.domain.signup.service;
 import com.example.tastispotbackend.domain.signup.dto.request.SignupRequest;
 import com.example.tastispotbackend.domain.signup.mapper.SignupMapper;
 import com.example.tastispotbackend.global.entity.User;
+import com.example.tastispotbackend.global.exception.ErrorCode;
+import com.example.tastispotbackend.global.exception.custom.TastiSpotUserException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +21,18 @@ public class SignupService {
     public void checkNickname(String nickname) {
         int result = signupMapper.selectNicknameChk(nickname);
 
-        // TODO: 예외 처리
+        if (result > 0) {
+            throw new TastiSpotUserException(ErrorCode.ALREADY_USING_NICKNAME, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional(readOnly = true)
     public void checkEmail(String email) {
         int result = signupMapper.selectEmailChk(email);
 
-        // TODO: 예외 처리
+        if (result > 0) {
+            throw new TastiSpotUserException(ErrorCode.ALREADY_USING_EMAIL, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional
