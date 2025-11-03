@@ -3,6 +3,7 @@ package com.example.tastispotbackend.domain.signup.controller;
 import com.example.tastispotbackend.domain.signup.dto.request.SignupRequest;
 import com.example.tastispotbackend.domain.signup.service.SignupService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,17 +13,23 @@ public class SignupController {
     private final SignupService signupService;
 
     @PostMapping("/signup")
-    void signup(@RequestBody SignupRequest request) {
+    ResponseEntity<Object> signup(@RequestBody SignupRequest request) {
+        signupService.signup(request);
 
+        return ResponseEntity.ok().body(null);
     }
 
     @GetMapping("/signup/check/nickname")
-    void checkNickname(@RequestParam String nickname) {
+    ResponseEntity<Object> checkNickname(@RequestParam String nickname) {
+        signupService.checkNickname(nickname);
 
+        return ResponseEntity.ok().body(null);
     }
 
     @PostMapping("/signup/check/email")
-    void checkEmail(@RequestParam String email) {
+    ResponseEntity<Object> checkEmail(@RequestParam String email) {
+        signupService.checkEmail(email);
 
+        return ResponseEntity.ok().body(null);
     }
 }

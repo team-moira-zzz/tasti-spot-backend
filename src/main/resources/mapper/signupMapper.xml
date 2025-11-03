@@ -2,5 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tastispotbackend.domain.signup.mapper.SignupMapper">
+    <select id="selectNicknameChk">
+        SELECT COUNT(id) FROM USER WHERE nickname = #{nickname}
+    </select>
 
+    <select id="selectEmailChk">
+        SELECT COUNT(id) FROM USER WHERE email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.tastispotbackend.global.entity.User">
+        INSERT INTO USER(
+               id
+             , name
+             , nickname
+             , email
+             , password
+             , created_at
+             , updated_at
+        ) VALUES (
+               #{id}
+             , #{name}
+             , #{nickname}
+             , #{email}
+             , #{password}
+             , CURRENT_TIMESTAMP
+             , CURRENT_TIMESTAMP
+        )
+    </insert>
 </mapper>
