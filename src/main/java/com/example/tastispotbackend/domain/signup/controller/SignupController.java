@@ -26,7 +26,7 @@ public class SignupController {
         return ResponseEntity.ok().body(null);
     }
 
-    @PostMapping("/signup/check/email")
+    @GetMapping("/signup/check/email")
     ResponseEntity<Object> checkEmail(@RequestParam String email) {
         signupService.checkEmail(email);
 

@@ -13,18 +13,24 @@
     <insert id="insertUser" parameterType="com.example.tastispotbackend.global.entity.User">
         INSERT INTO USER(
                id
+             , role
              , name
              , nickname
              , email
              , password
+             , rtk
+             , last_login_at
              , created_at
              , updated_at
         ) VALUES (
                #{id}
+             , #{role}
              , #{name}
              , #{nickname}
              , #{email}
              , #{password}
+             , null
+             , null
              , CURRENT_TIMESTAMP
              , CURRENT_TIMESTAMP
         )
