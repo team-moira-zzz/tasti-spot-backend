@@ -31,15 +31,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.example.tastispotbackend.global.constant.TastiSpotConstant.*;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
-    private static final String BEARER_PREFIX = "Bearer ";
     private static final List<RequestMatcher> EXCLUDE_REQUEST_MATCHERS = List.of(
-            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/login/**"),
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.GET, "/api/signup/**"),
+            PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/signup/**"),
             PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/api/login/**")
     );
 
@@ -50,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private void sendErrorResponse(
             HttpServletResponse response,
-            String message,
             ErrorCode errorCode,
             HttpStatus status
     ) throws IOException {
@@ -59,8 +60,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setCharacterEncoding("UTF-8");
 
         String errorResponse = String.format(
-                "{\"message\": \"%s\", \"errorCode\": \"%s\", \"status\": \"%s\", \"time\": \"%s\"}"
-                , message, errorCode, status, LocalDateTime.now()
+                "{\"message\": \"%s\", \"errorCode\": \"%s\", \"time\": \"%s\"}"
+                , errorCode.getMessage(), errorCode, LocalDateTime.now()
         );
         response.getWriter().write(errorResponse);
     }
@@ -78,7 +79,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeaderValue == null || !authorizationHeaderValue.startsWith(BEARER_PREFIX)) {
             sendErrorResponse(
                     response,
-                    "Authorization 헤더에 토큰 정보가 포함되어 있지 않습니다.",
                     ErrorCode.INVALID_AUTHORIZATION_HEADER,
                     HttpStatus.BAD_REQUEST
             );
@@ -94,9 +94,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Claims claims = jwtProvider.getUserInfoFromToken(atk);
 
             String userId = claims.getSubject();
-            String email = claims.get("email", String.class);
-            String role = claims.get("role", String.class);
-            String nickname = claims.get("nickname", String.class);
+            String email = claims.get(CLAIM_NAME_EMAIL, String.class);
+            String role = claims.get(CLAIM_NAME_ROLE, String.class);
+            String nickname = claims.get(CLAIM_NAME_NICKNAME, String.class);
 
             log.info("[접속 유저] {}: {}", nickname, email);
 
@@ -116,7 +116,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("e: ", e);
             sendErrorResponse(
                     response,
-                    "Access Token이 만료되었습니다.",
                     ErrorCode.EXPIRED_ATK,
                     HttpStatus.UNAUTHORIZED
             );
@@ -124,7 +123,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("e: ", e);
             sendErrorResponse(
                     response,
-                    "토큰 서명이 유효하지 않거나 형식이 올바르지 않습니다.",
                     ErrorCode.INVALID_TOKEN1,
                     HttpStatus.UNAUTHORIZED
             );
@@ -132,7 +130,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("e: ", e);
             sendErrorResponse(
                     response,
-                    "유효하지 않은 토큰입니다.",
                     ErrorCode.INVALID_TOKEN2,
                     HttpStatus.UNAUTHORIZED
             );
@@ -140,7 +137,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("e: ", e);
             sendErrorResponse(
                     response,
-                    "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.",
                     ErrorCode.INTERNAL_SYSTEM_ERROR,
                     HttpStatus.INTERNAL_SERVER_ERROR
             );

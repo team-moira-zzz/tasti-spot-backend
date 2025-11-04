@@ -3,7 +3,7 @@ package com.example.tastispotbackend.global.entity;
 import com.example.tastispotbackend.domain.signup.dto.request.SignupRequest;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class User {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
-    public User(SignupRequest request, BCryptPasswordEncoder passwordEncoder) {
+    public User(SignupRequest request, PasswordEncoder passwordEncoder) {
         this.id = UUID.randomUUID().toString();
         this.role = UserRole.USER;
         this.name = request.name();

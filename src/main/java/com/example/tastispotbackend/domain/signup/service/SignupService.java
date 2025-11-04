@@ -7,14 +7,14 @@ import com.example.tastispotbackend.global.exception.ErrorCode;
 import com.example.tastispotbackend.global.exception.custom.TastiSpotUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class SignupService {
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final SignupMapper signupMapper;
 
     @Transactional(readOnly = true)
