@@ -9,12 +9,15 @@
     <select id="selectUserByEmail" resultType="com.example.tastispotbackend.global.entity.User">
         SELECT
                id
+             , role
              , name
              , nickname
              , email
              , password
-             , created_at
-             , updated_at
+             , rtk
+             , last_login_at AS lastLoginAt
+             , created_at    AS createdAt
+             , updated_at    AS updatedAt
         FROM USER
         WHERE email = #{email}
     </select>
@@ -26,7 +29,6 @@
              , ip_address
              , user_agent
              , failure_reason
-             , device_type
              , login_time
         ) VALUES (
                #{userId}
@@ -34,8 +36,15 @@
              , #{ipAddress}
              , #{userAgent}
              , #{failureReason}
-             , #{deviceType}
              , #{loginTime}
         )
     </insert>
+
+    <update id="updateUserWhenLogin">
+        UPDATE USER
+        SET
+               rtk           = #{rtk}
+             , last_login_at = CURRENT_TIMESTAMP
+        WHERE id = #{userId}
+    </update>
 </mapper>

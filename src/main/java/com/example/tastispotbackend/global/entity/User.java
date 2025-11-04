@@ -1,15 +1,19 @@
 package com.example.tastispotbackend.global.entity;
 
 import com.example.tastispotbackend.domain.signup.dto.request.SignupRequest;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User {
     private String id;
     private UserRole role;

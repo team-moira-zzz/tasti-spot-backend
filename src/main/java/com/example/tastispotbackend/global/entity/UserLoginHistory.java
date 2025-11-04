@@ -1,6 +1,5 @@
 package com.example.tastispotbackend.global.entity;
 
-import com.example.tastispotbackend.domain.login.dto.request.LoginDeviceInfoRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,16 +14,15 @@ public class UserLoginHistory {
     private String failureReason;
     private String ipAddress;
     private String userAgent;
-    private String deviceType;
     private ZonedDateTime loginTime;
 
-    public UserLoginHistory(User user, Boolean isSuccess, String failureReason, LoginDeviceInfoRequest loginDeviceInfoRequest) {
+    public UserLoginHistory(User user, Boolean isSuccess, String failureReason, String ipAddress, String userAgent) {
+        this.id = null;
         this.userId = user.getId();
         this.success = isSuccess;
         this.failureReason = failureReason;
-        this.ipAddress = loginDeviceInfoRequest.ipAddress();
-        this.userAgent = loginDeviceInfoRequest.userAgent();
-        this.deviceType = loginDeviceInfoRequest.deviceType();
+        this.ipAddress = ipAddress;
+        this.userAgent = userAgent;
         this.loginTime = ZonedDateTime.now();
     }
 }
