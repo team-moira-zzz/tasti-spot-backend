@@ -1,8 +1,10 @@
 package com.example.tastispotbackend.domain.login.controller;
 
 import com.example.tastispotbackend.domain.login.dto.request.LoginRequest;
+import com.example.tastispotbackend.domain.login.dto.response.LoginResponse;
 import com.example.tastispotbackend.domain.login.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +19,13 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    ResponseEntity<Object> login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
-        loginService.login(request, httpServletRequest);
+    ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest request,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        LoginResponse loginResponse = loginService.login(request, httpServletRequest, httpServletResponse);
 
-        return ResponseEntity.ok(null); // 추후 토큰 정보 리턴
+        return ResponseEntity.ok(loginResponse);
     }
 }

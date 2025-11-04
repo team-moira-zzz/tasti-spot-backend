@@ -12,6 +12,7 @@ import java.util.UUID;
 @Setter
 public class User {
     private String id;
+    private String role;
     private String name;
     private String nickname;
     private String email;
@@ -21,6 +22,7 @@ public class User {
 
     public User(SignupRequest request, BCryptPasswordEncoder passwordEncoder) {
         this.id = UUID.randomUUID().toString();
+        this.role = ""; // TODO
         this.name = request.name();
         this.nickname = request.nickname();
         this.email = request.email();

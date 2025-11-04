@@ -13,3 +13,13 @@ spring:
       mode: never
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
+
+---
+
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret:
+    key: ${JWT_SECRET_KEY}
+  expiration-time:
+    atk: 1800000
+    rtk: 86400000
