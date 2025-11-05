@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tastispotbackend.domain.profile.mapper.ProfileMapper">
+    <select id="selectUserById" resultType="com.example.tastispotbackend.domain.profile.dto.response.ProfileResponse">
+        SELECT
+                id
+             , role
+             , name
+             , nickname
+             , email
+             , last_login_at AS lastLoginAt
+             , created_at    AS createdAt
+             , updated_at    AS updatedAt
+        FROM USER
+        WHERE id = #{userId}
+    </select>
+</mapper>
