@@ -1,7 +1,7 @@
 package com.example.tastispotbackend.domain.group.controller;
 
 import com.example.tastispotbackend.domain.group.dto.request.GroupAddRequest;
-import com.example.tastispotbackend.domain.group.service.SpotGroupService;
+import com.example.tastispotbackend.domain.group.service.GroupService;
 import com.example.tastispotbackend.global.auth.SimpleUserAuth;
 import com.example.tastispotbackend.global.auth.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RestController
 public class GroupController {
-    private final SpotGroupService spotGroupService;
+    private final GroupService groupService;
 
     @PostMapping("/group")
     ResponseEntity<Object> addGroup(
             @UserPrincipal SimpleUserAuth simpleUserAuth,
             @RequestBody GroupAddRequest request
     ) {
-        spotGroupService.addGroup(simpleUserAuth, request);
+        groupService.addGroup(simpleUserAuth, request);
 
         return ResponseEntity.ok(null);
     }

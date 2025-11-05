@@ -6,7 +6,7 @@
         SELECT COUNT(id) FROM SPOT_GROUP WHERE invitation_code = #{invitationCode}
     </select>
 
-    <insert id="insertSpotGroup" parameterType="com.example.tastispotbackend.global.entity.SpotGroup">
+    <insert id="insertGroup" parameterType="com.example.tastispotbackend.global.entity.Group">
         INSERT INTO SPOT_GROUP (
                id
              , owner_id

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class SpotGroup {
+public class Group {
     private String id;
     private String ownerId;
     private String name;
@@ -18,7 +18,7 @@ public class SpotGroup {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
-    public SpotGroup(String userId, String invitationCode, GroupAddRequest request) {
+    public Group(String userId, String invitationCode, GroupAddRequest request) {
         this.id = UUID.randomUUID().toString();
         this.ownerId = userId;
         this.invitationCode = invitationCode;
