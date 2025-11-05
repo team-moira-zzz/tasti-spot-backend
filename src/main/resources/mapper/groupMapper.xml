@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tastispotbackend.domain.group.mapper.GroupMapper">
+    <select id="selectGroupList" resultType="com.example.tastispotbackend.domain.group.dto.response.GroupResponse">
+
+
+        SELECT
+               A.id
+             , A.name
+             , A.description
+             , COUNT(C.user_id) AS memberCount
+             , B.joined_at      AS joinedAt
+        FROM SPOT_GROUP A
+        -- 1. 사용자 가입 여부 확인
+        INNER JOIN SPOT_GROUP_MEMBER B
+        ON B.group_id = A.id
+        -- 2. 그룹 별 멤버 카운트를 위한 JOIN
+        LEFT JOIN SPOT_GROUP_MEMBER C
+        ON C.group_id = A.id
+        -- WHERE
+        WHERE B.user_id = #{userId}
+        -- GROUP BY
+        GROUP BY A.id, A.name, A.description, B.joined_at
+        -- ORDER BY
+        ORDER BY B.joined_at DESC
+    </select>
+
     <select id="selectInvitationCodeChk">
         SELECT COUNT(id) FROM SPOT_GROUP WHERE invitation_code = #{invitationCode}
     </select>
@@ -23,6 +47,20 @@
              , #{invitationCode}
              , #{createdAt}
              , #{updatedAt}
+        )
+    </insert>
+
+    <insert id="insertGroupMember" parameterType="com.example.tastispotbackend.global.entity.GroupMember">
+        INSERT INTO SPOT_GROUP_MEMBER (
+               group_id
+             , user_id
+             , joined_at
+             , left_at
+        ) VALUES (
+               #{groupId}
+             , #{userId}
+             , CURRENT_TIMESTAMP
+             , null
         )
     </insert>
 </mapper>
